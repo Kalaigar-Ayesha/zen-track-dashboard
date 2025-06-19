@@ -1,135 +1,232 @@
 
 import { useState } from 'react';
-import { User, Settings, Bell, Moon, Sun } from 'lucide-react';
-import { Button } from '@/components/ui/button';
+import { motion } from 'framer-motion';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Switch } from '@/components/ui/switch';
-import { Label } from '@/components/ui/label';
+import { Button } from '@/components/ui/button';
+import { User, Settings, Bell, Shield, Palette, BarChart3, Award, Target } from 'lucide-react';
+import { AnalyticsSection } from './AnalyticsSection';
 
 export const ProfileSection = () => {
-  const [notifications, setNotifications] = useState(true);
-  const [sounds, setSounds] = useState(false);
-  
-  const stats = [
-    { label: 'Tasks Completed', value: '127' },
-    { label: 'Total Focus Time', value: '45.2h' },
-    { label: 'Habit Streak', value: '12 days' },
-    { label: 'Productivity Score', value: '89%' },
+  const [activeTab, setActiveTab] = useState('profile');
+
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1,
+        delayChildren: 0.2
+      }
+    }
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { 
+      opacity: 1, 
+      y: 0,
+      transition: { duration: 0.5, ease: "easeOut" }
+    }
+  };
+
+  const tabs = [
+    { id: 'profile', label: 'Profile', icon: User },
+    { id: 'analytics', label: 'Analytics', icon: BarChart3 },
+    { id: 'settings', label: 'Settings', icon: Settings }
   ];
 
   return (
-    <div className="max-w-4xl mx-auto space-y-6">
-      {/* Profile Header */}
-      <Card className="bg-white/50 dark:bg-slate-800/50 backdrop-blur-sm border-slate-200 dark:border-slate-700">
-        <CardContent className="p-6">
-          <div className="flex flex-col md:flex-row items-center space-y-4 md:space-y-0 md:space-x-6">
-            <Avatar className="w-24 h-24">
-              <AvatarImage src="" alt="Profile" />
-              <AvatarFallback className="text-2xl bg-gradient-to-br from-purple-500 to-blue-500 text-white">
-                A
-              </AvatarFallback>
-            </Avatar>
-            
-            <div className="text-center md:text-left flex-1">
-              <h2 className="text-2xl font-bold text-slate-800 dark:text-slate-100 mb-2">
-                Alex Johnson
-              </h2>
-              <p className="text-slate-600 dark:text-slate-400 mb-4">
-                Productivity enthusiast • Joined March 2024
-              </p>
-              <Button variant="outline" className="mb-4">
-                <Settings className="w-4 h-4 mr-2" />
-                Edit Profile
-              </Button>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
+    <motion.div
+      variants={containerVariants}
+      initial="hidden"
+      animate="visible"
+      className="space-y-6"
+    >
+      <motion.div variants={itemVariants}>
+        <h1 className="text-3xl font-bold text-slate-800 dark:text-slate-100 mb-2">
+          Profile & Analytics
+        </h1>
+        <p className="text-slate-600 dark:text-slate-400">
+          Manage your account and view performance insights
+        </p>
+      </motion.div>
 
-      {/* Stats Grid */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-        {stats.map((stat, index) => (
-          <Card
-            key={stat.label}
-            className="bg-white/50 dark:bg-slate-800/50 backdrop-blur-sm border-slate-200 dark:border-slate-700 hover:shadow-lg transition-all duration-300"
-            style={{ animationDelay: `${index * 100}ms` }}
-          >
-            <CardContent className="p-4 text-center">
-              <p className="text-2xl font-bold text-slate-800 dark:text-slate-100 mb-1">
-                {stat.value}
-              </p>
-              <p className="text-sm text-slate-600 dark:text-slate-400">
-                {stat.label}
-              </p>
-            </CardContent>
-          </Card>
-        ))}
-      </div>
+      {/* Tab Navigation */}
+      <motion.div variants={itemVariants}>
+        <div className="flex space-x-1 bg-slate-100 dark:bg-slate-800 p-1 rounded-lg">
+          {tabs.map((tab) => {
+            const Icon = tab.icon;
+            return (
+              <motion.button
+                key={tab.id}
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                onClick={() => setActiveTab(tab.id)}
+                className={`flex items-center gap-2 px-4 py-2 rounded-md font-medium transition-all duration-200 ${
+                  activeTab === tab.id
+                    ? 'bg-white dark:bg-slate-700 text-slate-800 dark:text-slate-100 shadow-sm'
+                    : 'text-slate-600 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200'
+                }`}
+              >
+                <Icon className="w-4 h-4" />
+                {tab.label}
+              </motion.button>
+            );
+          })}
+        </div>
+      </motion.div>
 
-      {/* Settings */}
-      <Card className="bg-white/50 dark:bg-slate-800/50 backdrop-blur-sm border-slate-200 dark:border-slate-700">
-        <CardHeader>
-          <CardTitle className="text-xl font-semibold text-slate-800 dark:text-slate-100 flex items-center space-x-2">
-            <Settings className="w-5 h-5" />
-            <span>Preferences</span>
-          </CardTitle>
-        </CardHeader>
-        
-        <CardContent className="space-y-6">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-3">
-              <Bell className="w-5 h-5 text-slate-600 dark:text-slate-400" />
-              <div>
-                <Label htmlFor="notifications" className="text-sm font-medium">
-                  Push Notifications
-                </Label>
-                <p className="text-xs text-slate-500 dark:text-slate-400">
-                  Get notified about task reminders and focus sessions
-                </p>
-              </div>
-            </div>
-            <Switch
-              id="notifications"
-              checked={notifications}
-              onCheckedChange={setNotifications}
-            />
-          </div>
+      {/* Tab Content */}
+      <motion.div
+        key={activeTab}
+        initial={{ opacity: 0, x: 20 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ duration: 0.3 }}
+      >
+        {activeTab === 'profile' && (
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            {/* Profile Info */}
+            <motion.div variants={itemVariants} className="lg:col-span-2">
+              <Card className="bg-white/50 dark:bg-slate-800/50 backdrop-blur-sm border-slate-200 dark:border-slate-700">
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <User className="w-5 h-5" />
+                    Personal Information
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <div className="flex items-center gap-4">
+                    <motion.div
+                      whileHover={{ scale: 1.05 }}
+                      className="w-16 h-16 bg-gradient-to-br from-purple-500 to-blue-500 rounded-full flex items-center justify-center text-white font-bold text-xl"
+                    >
+                      A
+                    </motion.div>
+                    <div>
+                      <h3 className="text-xl font-semibold text-slate-800 dark:text-slate-100">Alex Johnson</h3>
+                      <p className="text-slate-600 dark:text-slate-400">alex@zentrack.com</p>
+                    </div>
+                  </div>
+                  
+                  <div className="grid grid-cols-2 gap-4">
+                    <div>
+                      <label className="text-sm font-medium text-slate-600 dark:text-slate-400">Role</label>
+                      <p className="text-slate-800 dark:text-slate-100">Product Manager</p>
+                    </div>
+                    <div>
+                      <label className="text-sm font-medium text-slate-600 dark:text-slate-400">Department</label>
+                      <p className="text-slate-800 dark:text-slate-100">Product & Design</p>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </motion.div>
 
-          <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-3">
-              <User className="w-5 h-5 text-slate-600 dark:text-slate-400" />
-              <div>
-                <Label htmlFor="sounds" className="text-sm font-medium">
-                  Sound Effects
-                </Label>
-                <p className="text-xs text-slate-500 dark:text-slate-400">
-                  Play sounds for timer and task completion
-                </p>
-              </div>
-            </div>
-            <Switch
-              id="sounds"
-              checked={sounds}
-              onCheckedChange={setSounds}
-            />
+            {/* Quick Stats */}
+            <motion.div variants={itemVariants}>
+              <Card className="bg-white/50 dark:bg-slate-800/50 backdrop-blur-sm border-slate-200 dark:border-slate-700">
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <Award className="w-5 h-5" />
+                    Achievements
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  {[
+                    { label: 'Tasks Completed', value: '142', icon: Target },
+                    { label: 'Streak Days', value: '28', icon: Award },
+                    { label: 'Focus Hours', value: '87h', icon: BarChart3 }
+                  ].map((stat, index) => {
+                    const Icon = stat.icon;
+                    return (
+                      <motion.div
+                        key={stat.label}
+                        initial={{ opacity: 0, x: -20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ delay: index * 0.1 }}
+                        whileHover={{ scale: 1.02 }}
+                        className="flex items-center justify-between p-3 rounded-lg bg-slate-50 dark:bg-slate-900/50"
+                      >
+                        <div className="flex items-center gap-2">
+                          <Icon className="w-4 h-4 text-purple-600 dark:text-purple-400" />
+                          <span className="text-sm text-slate-600 dark:text-slate-400">{stat.label}</span>
+                        </div>
+                        <span className="font-semibold text-slate-800 dark:text-slate-100">{stat.value}</span>
+                      </motion.div>
+                    );
+                  })}
+                </CardContent>
+              </Card>
+            </motion.div>
           </div>
+        )}
 
-          <div className="pt-4 border-t border-slate-200 dark:border-slate-700">
-            <h4 className="text-sm font-medium text-slate-800 dark:text-slate-100 mb-3">
-              Data & Privacy
-            </h4>
-            <div className="space-y-2">
-              <Button variant="outline" size="sm" className="w-full justify-start text-sm">
-                Export My Data
-              </Button>
-              <Button variant="outline" size="sm" className="w-full justify-start text-sm text-red-600 hover:text-red-700">
-                Delete Account
-              </Button>
-            </div>
+        {activeTab === 'analytics' && <AnalyticsSection />}
+
+        {activeTab === 'settings' && (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <motion.div variants={itemVariants}>
+              <Card className="bg-white/50 dark:bg-slate-800/50 backdrop-blur-sm border-slate-200 dark:border-slate-700">
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <Bell className="w-5 h-5" />
+                    Notifications
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  {[
+                    'Email notifications for task reminders',
+                    'Push notifications for habit tracking',
+                    'Weekly progress reports'
+                  ].map((setting, index) => (
+                    <motion.div
+                      key={setting}
+                      initial={{ opacity: 0, x: -20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: index * 0.1 }}
+                      className="flex items-center justify-between"
+                    >
+                      <span className="text-sm text-slate-600 dark:text-slate-400">{setting}</span>
+                      <motion.button
+                        whileHover={{ scale: 1.05 }}
+                        whileTap={{ scale: 0.95 }}
+                        className="w-10 h-6 bg-purple-600 rounded-full relative transition-colors"
+                      >
+                        <div className="w-4 h-4 bg-white rounded-full absolute top-1 right-1 transition-transform"></div>
+                      </motion.button>
+                    </motion.div>
+                  ))}
+                </CardContent>
+              </Card>
+            </motion.div>
+
+            <motion.div variants={itemVariants}>
+              <Card className="bg-white/50 dark:bg-slate-800/50 backdrop-blur-sm border-slate-200 dark:border-slate-700">
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <Shield className="w-5 h-5" />
+                    Privacy & Security
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <Button className="w-full justify-start" variant="outline">
+                    <Shield className="w-4 h-4 mr-2" />
+                    Change Password
+                  </Button>
+                  <Button className="w-full justify-start" variant="outline">
+                    <Settings className="w-4 h-4 mr-2" />
+                    Privacy Settings
+                  </Button>
+                  <Button className="w-full justify-start" variant="outline">
+                    <Palette className="w-4 h-4 mr-2" />
+                    Appearance
+                  </Button>
+                </CardContent>
+              </Card>
+            </motion.div>
           </div>
-        </CardContent>
-      </Card>
-    </div>
+        )}
+      </motion.div>
+    </motion.div>
   );
 };

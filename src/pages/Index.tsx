@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { Navbar } from '@/components/Navbar';
 import { WelcomeSection } from '@/components/WelcomeSection';
@@ -6,6 +5,7 @@ import { TasksSection } from '@/components/TasksSection';
 import { HabitsSection } from '@/components/HabitsSection';
 import { FocusSection } from '@/components/FocusSection';
 import { ProfileSection } from '@/components/ProfileSection';
+import { AnalyticsSection } from '@/components/AnalyticsSection';
 
 const Index = () => {
   const [activeSection, setActiveSection] = useState('dashboard');
@@ -50,6 +50,8 @@ const Index = () => {
         return <FocusSection />;
       case 'profile':
         return <ProfileSection />;
+      case 'analytics':
+        return <AnalyticsSection />;
       default:
         return (
           <div className="space-y-8">
