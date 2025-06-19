@@ -1,73 +1,37 @@
-# Welcome to your Lovable project
+# 🌿 ZenTrack – Productivity Dashboard
 
-## Project info
+**ZenTrack** is a modern, responsive, and animated dashboard that helps users manage **tasks, habits, and focus time** — all in a clean, minimalist UI inspired by Notion and Linear.
 
-**URL**: https://lovable.dev/projects/9f53f46e-841f-46fd-a3cf-338662f7e489
+---
 
-## How can I edit this code?
+## 🔧 Built With
+- **Lovable AI** (for UI generation)
+- **React + Next.js**
+- **Tailwind CSS**
+- **Framer Motion / CSS Animations**
+- **localStorage** (for data persistence)
 
-There are several ways of editing your application.
+---
 
-**Use Lovable**
+## 🚀 Features
+- 🌓 Light & Dark Mode
+- ✅ Task Manager (Add/Delete/Filter)
+- 📆 Habit Tracker with Streaks
+- ⏱️ Focus Timer (Pomodoro-style)
+- 📱 Fully Responsive Design
+- 🎨 Smooth Transitions & Animations
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/9f53f46e-841f-46fd-a3cf-338662f7e489) and start prompting.
+---
 
-Changes made via Lovable will be committed automatically to this repo.
+## 🔗 Live Demo
+[👉 View Live Project](https://your-live-link.com)
 
-**Use your preferred IDE**
+---
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+## 📁 How to Run Locally
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
-
-Follow these steps:
-
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
-
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
+```bash
+git clone https://github.com/your-username/zentrack.git
+cd zentrack
+npm install
 npm run dev
-```
-
-**Edit a file directly in GitHub**
-
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
-
-**Use GitHub Codespaces**
-
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
-
-## What technologies are used for this project?
-
-This project is built with:
-
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
-
-## How can I deploy this project?
-
-Simply open [Lovable](https://lovable.dev/projects/9f53f46e-841f-46fd-a3cf-338662f7e489) and click on Share -> Publish.
-
-## Can I connect a custom domain to my Lovable project?
-
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
