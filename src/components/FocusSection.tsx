@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { Play, Pause, RotateCcw, Clock } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -49,7 +48,7 @@ export const FocusSection = ({ compact = false }: FocusSectionProps) => {
 
   const resetTimer = () => {
     setIsRunning(false);
-    setTimeLeft(mode === 'focus' ? 25 *  : 5 * 60);
+    setTimeLeft(mode === 'focus' ? 25 * 60 : 5 * 60);
   };
 
   const formatTime = (seconds: number) => {
