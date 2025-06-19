@@ -24,7 +24,7 @@
 ---
 
 ## 🔗 Live Demo
-[👉 View Live Project](https://your-live-link.com)
+[👉 View Live Project](https://zen-track-dashboard.vercel.app/)
 
 ---
 
