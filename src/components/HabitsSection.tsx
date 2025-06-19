@@ -103,33 +103,41 @@ export const HabitsSection = ({ compact = false }: HabitsSectionProps) => {
   const completionRate = totalCount > 0 ? (completedCount / totalCount) * 100 : 0;
 
   return (
-    <Card className="bg-white/50 dark:bg-slate-800/50 backdrop-blur-sm border-slate-200 dark:border-slate-700">
+    <Card className="bg-white/50 dark:bg-slate-800/50 backdrop-blur-sm border-slate-200 dark:border-slate-700 hover:shadow-xl transition-all duration-500 animate-fade-in">
       <CardHeader className="pb-4">
-        <CardTitle className="text-xl font-semibold text-slate-800 dark:text-slate-100">
+        <CardTitle className="text-xl font-semibold text-slate-800 dark:text-slate-100 animate-fade-in">
           Habits
         </CardTitle>
-        <div className="space-y-2">
+        <div className="space-y-2 animate-fade-in" style={{ animationDelay: '0.1s' }}>
           <div className="flex justify-between text-sm text-slate-600 dark:text-slate-400">
             <span>Today's Progress</span>
-            <span>{completedCount}/{totalCount}</span>
+            <span className="font-semibold text-purple-600 dark:text-purple-400">{completedCount}/{totalCount}</span>
           </div>
-          <Progress value={completionRate} className="h-2" />
+          <div className="relative overflow-hidden rounded-full">
+            <Progress value={completionRate} className="h-2 transition-all duration-500" />
+            <div className="absolute inset-0 bg-gradient-to-r from-purple-400 to-purple-600 opacity-30 rounded-full transition-all duration-500" 
+                 style={{ width: `${completionRate}%` }} />
+          </div>
         </div>
       </CardHeader>
       
       <CardContent className="space-y-4">
         {/* Add Habit Input */}
         {!compact && (
-          <div className="flex space-x-2">
+          <div className="flex space-x-2 animate-fade-in" style={{ animationDelay: '0.2s' }}>
             <Input
               placeholder="Add a new habit..."
               value={newHabit}
               onChange={(e) => setNewHabit(e.target.value)}
               onKeyPress={(e) => e.key === 'Enter' && addHabit()}
-              className="flex-1"
+              className="flex-1 focus:scale-[1.02] transition-all duration-200 focus:shadow-lg"
             />
-            <Button onClick={addHabit} size="sm" className="bg-purple-600 hover:bg-purple-700">
-              <Plus className="w-4 h-4" />
+            <Button 
+              onClick={addHabit} 
+              size="sm" 
+              className="bg-purple-600 hover:bg-purple-700 hover:scale-110 active:scale-95 transition-all duration-200 shadow-lg hover:shadow-purple-500/25"
+            >
+              <Plus className="w-4 h-4 hover:rotate-180 transition-transform duration-300" />
             </Button>
           </div>
         )}
@@ -139,25 +147,25 @@ export const HabitsSection = ({ compact = false }: HabitsSectionProps) => {
           {displayHabits.map((habit, index) => (
             <div
               key={habit.id}
-              className="flex items-center space-x-3 p-3 rounded-lg bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 transition-all duration-200 hover:shadow-sm"
+              className="flex items-center space-x-3 p-3 rounded-lg bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 transition-all duration-300 hover:shadow-lg hover:scale-[1.02] animate-fade-in group"
               style={{ animationDelay: `${index * 50}ms` }}
             >
               <button
                 onClick={() => toggleHabit(habit.id)}
-                className={`w-6 h-6 rounded-full border-2 flex items-center justify-center transition-all duration-200 ${
+                className={`w-6 h-6 rounded-full border-2 flex items-center justify-center transition-all duration-300 hover:scale-110 active:scale-90 ${
                   habit.completedToday
-                    ? 'bg-green-500 border-green-500 scale-110'
-                    : 'border-slate-300 dark:border-slate-500 hover:border-green-400'
+                    ? 'bg-green-500 border-green-500 shadow-lg shadow-green-500/30 animate-pulse'
+                    : 'border-slate-300 dark:border-slate-500 hover:border-green-400 hover:shadow-lg'
                 }`}
               >
-                {habit.completedToday && <Check className="w-4 h-4 text-white" />}
+                {habit.completedToday && <Check className="w-4 h-4 text-white animate-scale-in" />}
               </button>
               
               <div className="flex-1 min-w-0">
-                <p className={`text-sm font-medium truncate ${
+                <p className={`text-sm font-medium truncate transition-all duration-300 ${
                   habit.completedToday
                     ? 'text-slate-800 dark:text-slate-200'
-                    : 'text-slate-600 dark:text-slate-300'
+                    : 'text-slate-600 dark:text-slate-300 group-hover:text-purple-600 dark:group-hover:text-purple-400'
                 }`}>
                   {habit.title}
                 </p>
@@ -165,7 +173,7 @@ export const HabitsSection = ({ compact = false }: HabitsSectionProps) => {
               
               <div className="flex items-center space-x-2">
                 <div className="text-right">
-                  <p className="text-xs text-slate-500 dark:text-slate-400">
+                  <p className="text-xs text-slate-500 dark:text-slate-400 group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors duration-200">
                     {habit.streak} day streak
                   </p>
                 </div>
@@ -173,7 +181,7 @@ export const HabitsSection = ({ compact = false }: HabitsSectionProps) => {
                   {Array.from({ length: Math.min(habit.streak, 7) }).map((_, i) => (
                     <div
                       key={i}
-                      className="w-2 h-2 bg-green-400 rounded-full"
+                      className="w-2 h-2 bg-green-400 rounded-full animate-scale-in hover:scale-150 transition-all duration-300"
                       style={{ animationDelay: `${i * 100}ms` }}
                     />
                   ))}
@@ -183,14 +191,16 @@ export const HabitsSection = ({ compact = false }: HabitsSectionProps) => {
           ))}
           
           {displayHabits.length === 0 && (
-            <div className="text-center py-8 text-slate-500 dark:text-slate-400">
-              No habits yet. Add one to get started!
+            <div className="text-center py-8 text-slate-500 dark:text-slate-400 animate-fade-in">
+              <div className="animate-pulse">
+                No habits yet. Add one to get started!
+              </div>
             </div>
           )}
         </div>
         
         {compact && habits.length > 4 && (
-          <p className="text-sm text-slate-500 dark:text-slate-400 text-center">
+          <p className="text-sm text-slate-500 dark:text-slate-400 text-center animate-fade-in hover:text-purple-600 transition-colors duration-200">
             +{habits.length - 4} more habits
           </p>
         )}

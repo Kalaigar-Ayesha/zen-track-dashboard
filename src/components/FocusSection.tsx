@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from 'react';
 import { Play, Pause, RotateCcw, Clock } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -60,35 +61,44 @@ export const FocusSection = ({ compact = false }: FocusSectionProps) => {
   const progress = ((initialTime - timeLeft) / initialTime) * 100;
 
   return (
-    <Card className="bg-white/50 dark:bg-slate-800/50 backdrop-blur-sm border-slate-200 dark:border-slate-700">
+    <Card className="bg-white/50 dark:bg-slate-800/50 backdrop-blur-sm border-slate-200 dark:border-slate-700 hover:shadow-xl hover:scale-[1.02] transition-all duration-500 animate-fade-in">
       <CardHeader className="text-center pb-4">
         <CardTitle className="text-xl font-semibold text-slate-800 dark:text-slate-100 flex items-center justify-center space-x-2">
-          <Clock className="w-5 h-5" />
-          <span>Focus Timer</span>
+          <Clock className={`w-5 h-5 transition-all duration-300 ${isRunning ? 'animate-pulse text-purple-500' : ''}`} />
+          <span className="animate-fade-in">Focus Timer</span>
         </CardTitle>
-        <div className="flex justify-center space-x-4 text-sm text-slate-600 dark:text-slate-400">
-          <span>Sessions: {sessionsCompleted}</span>
-          <span>Mode: {mode === 'focus' ? 'Focus' : 'Break'}</span>
+        <div className="flex justify-center space-x-4 text-sm text-slate-600 dark:text-slate-400 animate-fade-in" style={{ animationDelay: '0.2s' }}>
+          <span className="transform hover:scale-110 transition-transform duration-200">Sessions: {sessionsCompleted}</span>
+          <span className={`transform hover:scale-110 transition-all duration-300 ${
+            mode === 'focus' ? 'text-purple-600' : 'text-green-600'
+          }`}>Mode: {mode === 'focus' ? 'Focus' : 'Break'}</span>
         </div>
       </CardHeader>
       
       <CardContent className="space-y-6">
         {/* Timer Display */}
-        <div className="text-center space-y-4">
-          <div className={`text-6xl font-mono font-bold transition-colors duration-300 ${
+        <div className="text-center space-y-4 animate-fade-in" style={{ animationDelay: '0.3s' }}>
+          <div className={`text-6xl font-mono font-bold transition-all duration-500 transform hover:scale-105 ${
             mode === 'focus' 
               ? 'text-purple-600 dark:text-purple-400' 
               : 'text-green-600 dark:text-green-400'
-          }`}>
+          } ${isRunning ? 'animate-pulse' : ''}`}>
             {formatTime(timeLeft)}
           </div>
           
           <div className="space-y-2">
-            <Progress 
-              value={progress} 
-              className={`h-3 ${mode === 'focus' ? '' : 'bg-green-100 dark:bg-green-900/30'}`}
-            />
-            <p className="text-sm text-slate-500 dark:text-slate-400">
+            <div className="relative overflow-hidden rounded-full">
+              <Progress 
+                value={progress} 
+                className={`h-3 transition-all duration-500 ${mode === 'focus' ? '' : 'bg-green-100 dark:bg-green-900/30'}`}
+              />
+              <div className={`absolute inset-0 bg-gradient-to-r opacity-30 rounded-full transition-all duration-500 ${
+                mode === 'focus' 
+                  ? 'from-purple-400 to-purple-600' 
+                  : 'from-green-400 to-green-600'
+              }`} style={{ width: `${progress}%` }} />
+            </div>
+            <p className="text-sm text-slate-500 dark:text-slate-400 transition-colors duration-300">
               {mode === 'focus' ? 'Focus time' : 'Break time'}
             </p>
           </div>
@@ -96,19 +106,19 @@ export const FocusSection = ({ compact = false }: FocusSectionProps) => {
 
         {/* Controls */}
         {!compact && (
-          <div className="flex justify-center space-x-3">
+          <div className="flex justify-center space-x-3 animate-fade-in" style={{ animationDelay: '0.4s' }}>
             <Button
               onClick={toggleTimer}
               size="lg"
-              className={`px-8 ${
+              className={`px-8 transform hover:scale-105 active:scale-95 transition-all duration-200 shadow-lg hover:shadow-xl ${
                 mode === 'focus'
-                  ? 'bg-purple-600 hover:bg-purple-700'
-                  : 'bg-green-600 hover:bg-green-700'
+                  ? 'bg-purple-600 hover:bg-purple-700 hover:shadow-purple-500/25'
+                  : 'bg-green-600 hover:bg-green-700 hover:shadow-green-500/25'
               }`}
             >
               {isRunning ? (
                 <>
-                  <Pause className="w-5 h-5 mr-2" />
+                  <Pause className="w-5 h-5 mr-2 animate-pulse" />
                   Pause
                 </>
               ) : (
@@ -123,9 +133,9 @@ export const FocusSection = ({ compact = false }: FocusSectionProps) => {
               onClick={resetTimer}
               variant="outline"
               size="lg"
-              className="px-6"
+              className="px-6 transform hover:scale-105 active:scale-95 transition-all duration-200 hover:shadow-lg"
             >
-              <RotateCcw className="w-4 h-4 mr-2" />
+              <RotateCcw className="w-4 h-4 mr-2 hover:rotate-180 transition-transform duration-300" />
               Reset
             </Button>
           </div>
@@ -133,7 +143,7 @@ export const FocusSection = ({ compact = false }: FocusSectionProps) => {
 
         {/* Mode Switcher */}
         {!compact && (
-          <div className="flex justify-center space-x-2">
+          <div className="flex justify-center space-x-2 animate-fade-in" style={{ animationDelay: '0.5s' }}>
             <Button
               onClick={() => {
                 setMode('focus');
@@ -142,7 +152,11 @@ export const FocusSection = ({ compact = false }: FocusSectionProps) => {
               }}
               variant={mode === 'focus' ? 'default' : 'outline'}
               size="sm"
-              className={mode === 'focus' ? 'bg-purple-600 hover:bg-purple-700' : ''}
+              className={`transform hover:scale-105 active:scale-95 transition-all duration-200 ${
+                mode === 'focus' 
+                  ? 'bg-purple-600 hover:bg-purple-700 shadow-lg hover:shadow-purple-500/25' 
+                  : 'hover:shadow-lg'
+              }`}
             >
               Focus (25m)
             </Button>
@@ -154,7 +168,11 @@ export const FocusSection = ({ compact = false }: FocusSectionProps) => {
               }}
               variant={mode === 'break' ? 'default' : 'outline'}
               size="sm"
-              className={mode === 'break' ? 'bg-green-600 hover:bg-green-700' : ''}
+              className={`transform hover:scale-105 active:scale-95 transition-all duration-200 ${
+                mode === 'break' 
+                  ? 'bg-green-600 hover:bg-green-700 shadow-lg hover:shadow-green-500/25' 
+                  : 'hover:shadow-lg'
+              }`}
             >
               Break (5m)
             </Button>
